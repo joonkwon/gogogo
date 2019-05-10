@@ -1,0 +1,50 @@
+// Package summultiples implement functions to calculate sum of multiples.
+package summultiples
+
+// SumMultiples get limit and divisors and return the sum of multiples of
+// the divisors. Duplicated multiples will be added only once.
+func SumMultiples(limit int, divs ...int) int {
+	multiples := set{
+		numbers: make([]int, 0),
+		sum:     0,
+		contain: make(map[int]bool),
+	}
+	for _, div := range divs {
+		// if divisor is 0, pass
+		if div == 0 {
+			continue
+		}
+		// find maximum multiplier
+		r := (limit - 1) / div
+		// add div * multiplier to multipuls set until r
+		for i := 1; i < r+1; i++ {
+			multiples.add(i * div)
+		}
+	}
+
+	return multiples.getSum()
+}
+
+// set is a struct for list of unique integers.
+type set struct {
+	numbers []int
+	sum     int
+	contain map[int]bool
+}
+
+func (s *set) add(in int) {
+	if !s.contain[in] {
+		s.numbers = append(s.numbers, in)
+		s.contain[in] = true
+		s.sum += in
+	}
+}
+
+func (s *set) contains(in int) bool {
+	_, ok := s.contain[in]
+	return ok
+}
+
+func (s *set) getSum() int {
+	return s.sum
+}

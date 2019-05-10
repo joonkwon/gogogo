@@ -1,6 +1,7 @@
-package main
+package jk
 
 import (
+	"bufio"
 	"encoding/csv"
 	"encoding/json"
 	"flag"
@@ -10,9 +11,13 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	// "strings"
 )
 
+var email MyEmail
+
 func main() {
+
 	filepath := flag.String("csv", "employee.csv", "csv filepath to load")
 	flag.Parse()
 	f, err := os.Open(*filepath)
@@ -23,7 +28,7 @@ func main() {
 
 	employees := []Employee{}
 
-	reader := csv.NewReader(f) //could be csv.NewReader(bufio.NewReader(f))
+	reader := csv.NewReader(bufio.NewReader(f)) //could be csv.NewReader(bufio.NewReader(f))
 	for {
 		line, err := reader.Read()
 		if err != nil {
@@ -80,3 +85,9 @@ func (e Employee) MarshalJSON() ([]byte, error) {
 type Employess struct {
 	Employess []Employee `json:"employees"`
 }
+
+func (e Employee) UnMarshallJSON
+
+var employees2 []Employee
+
+json.Unmarshal(jsonByte, &employees2)
