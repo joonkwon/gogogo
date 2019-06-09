@@ -1,6 +1,9 @@
 package summultiples
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 type testCase struct {
 	description string
@@ -35,8 +38,41 @@ func TestSumOfMultiples(t *testing.T) {
 	for _, c := range testCases {
 		actual := SumMultiples(c.input.limit, c.input.divisors...)
 		if actual != c.expected {
-			t.Fatalf("test case failed: %s \n want: %d\n got: %d", c.description, c.expected, actual)
+			t.Errorf("test case failed: %s \n want: %d\n got: %d", c.description, c.expected, actual)
 		}
+	}
+}
+
+func TestAdd(t *testing.T) {
+	aSet := &set{
+		numbers: []int{3, 6, 8},
+		sum:     17,
+		contain: map[int]bool{
+			3: true,
+			6: true,
+			8: true,
+		},
+	}
+	numberToAdd := 9
+	expectedNums := []int{3, 6, 8, 9}
+	expectedSum := 26
+	expectedContain := map[int]bool{
+		3: true,
+		6: true,
+		8: true,
+		9: true,
+	}
+
+	aSet.add(numberToAdd)
+
+	if !reflect.DeepEqual(aSet.numbers, expectedNums) {
+		t.Fatalf("Add test failed in numbers slice. want: %v, got: %v", expectedNums, aSet.numbers)
+	}
+	if aSet.sum != expectedSum {
+		t.Fatalf("Add test failed in sum. want: %d, got: %d", expectedSum, aSet.sum)
+	}
+	if !reflect.DeepEqual(aSet.contain, expectedContain) {
+		t.Fatalf("Add test failed in contain map. want: %v, got: %v", expectedContain, aSet.contain)
 	}
 }
 
@@ -45,5 +81,20 @@ func BenchmarkSumOfMultiples(b *testing.B) {
 		for _, c := range testCases {
 			SumMultiples(c.input.limit, c.input.divisors...)
 		}
+	}
+}
+
+func BenchmarkAdd(b *testing.B) {
+	aSet := &set{
+		numbers: []int{3, 6, 8},
+		sum:     17,
+		contain: map[int]bool{
+			3: true,
+			6: true,
+			8: true,
+		},
+	}
+	for i := 0; i < b.N; i++ {
+		aSet.add(i)
 	}
 }
