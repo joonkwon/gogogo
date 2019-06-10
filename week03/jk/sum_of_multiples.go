@@ -5,9 +5,8 @@ package summultiples
 // the divisors. Duplicated multiples will be added only once.
 func SumMultiples(limit int, divs ...int) int {
 	multiples := set{
-		numbers: make([]int, 0),
 		sum:     0,
-		contain: make(map[int]bool),
+		container: make(map[int]bool),
 	}
 	for _, div := range divs {
 		// if divisor is 0, pass
@@ -27,21 +26,19 @@ func SumMultiples(limit int, divs ...int) int {
 
 // set is a struct for list of unique integers.
 type set struct {
-	numbers []int
 	sum     int
-	contain map[int]bool
+	container map[int]bool
 }
 
 func (s *set) add(in int) {
-	if !s.contain[in] {
-		s.numbers = append(s.numbers, in)
-		s.contain[in] = true
+	if !s.container[in] {
+		s.container[in] = true
 		s.sum += in
 	}
 }
 
 func (s *set) contains(in int) bool {
-	_, ok := s.contain[in]
+	_, ok := s.container[in]
 	return ok
 }
 

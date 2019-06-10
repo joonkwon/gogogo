@@ -43,18 +43,16 @@ func TestSumOfMultiples(t *testing.T) {
 	}
 }
 
-func TestAdd(t *testing.T) {
+func TestAddHappy(t *testing.T) {
 	aSet := &set{
-		numbers: []int{3, 6, 8},
 		sum:     17,
-		contain: map[int]bool{
+		container: map[int]bool{
 			3: true,
 			6: true,
 			8: true,
 		},
 	}
 	numberToAdd := 9
-	expectedNums := []int{3, 6, 8, 9}
 	expectedSum := 26
 	expectedContain := map[int]bool{
 		3: true,
@@ -65,14 +63,14 @@ func TestAdd(t *testing.T) {
 
 	aSet.add(numberToAdd)
 
-	if !reflect.DeepEqual(aSet.numbers, expectedNums) {
-		t.Fatalf("Add test failed in numbers slice. want: %v, got: %v", expectedNums, aSet.numbers)
-	}
+	// if !reflect.DeepEqual(aSet.numbers, expectedNums) {
+	// 	t.Fatalf("Add test failed in numbers slice. want: %v, got: %v", expectedNums, aSet.numbers)
+	// }
 	if aSet.sum != expectedSum {
 		t.Fatalf("Add test failed in sum. want: %d, got: %d", expectedSum, aSet.sum)
 	}
-	if !reflect.DeepEqual(aSet.contain, expectedContain) {
-		t.Fatalf("Add test failed in contain map. want: %v, got: %v", expectedContain, aSet.contain)
+	if !reflect.DeepEqual(aSet.container, expectedContain) {
+		t.Fatalf("Add test failed in contain map. want: %v, got: %v", expectedContain, aSet.container)
 	}
 }
 
@@ -86,9 +84,8 @@ func BenchmarkSumOfMultiples(b *testing.B) {
 
 func BenchmarkAdd(b *testing.B) {
 	aSet := &set{
-		numbers: []int{3, 6, 8},
 		sum:     17,
-		contain: map[int]bool{
+		container: map[int]bool{
 			3: true,
 			6: true,
 			8: true,
